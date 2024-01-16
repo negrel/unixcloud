@@ -1,0 +1,19 @@
+version: "3"
+services:
+  httpd:
+    image: docker.io/library/httpd:2.4.58
+    command: bash -c "chown www-data:www-data /usr/local/apache2/htdocs/{,upload} && exec httpd-foreground"
+    hostname: "httpd.localhost"
+    user: "root"
+    ports:
+      - 80:80
+    volumes:
+      - ./httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+      - ./httpd-dav.conf:/usr/local/apache2/conf/extra/httpd-dav.conf:ro
+      - ${UPLOAD_DIR:-./upload}:/usr/local/apache2/htdocs/upload:rw
+      - ${DOWNLOAD_DIR:-./download}:/usr/local/apache2/htdocs/download:ro
+      - $PWD/users.passwd:/usr/local/apache2/users.passwd:ro
+    networks:
+      default:
+        aliases:
+          - "httpd.localhost"
