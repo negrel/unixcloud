@@ -5,14 +5,15 @@ services:
     restart: unless-stopped
     hostname: "httpd.localhost"
     command: bash -c "chown www-data:www-data /usr/local/apache2/htdocs/{,upload} && exec httpd-foreground"
-    # ports:
-    #   - 80:80
+    ports:
+      - 80:80
     volumes:
       - ${REPO_ROOT:-..}/httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
       - ${REPO_ROOT:-..}/httpd/httpd-dav.conf:/usr/local/apache2/conf/extra/httpd-dav.conf:ro
       - ${UNIXCLOUD_UPLOAD_DIR:-${REPO_ROOT:-..}/httpd/upload}/httpd:/usr/local/apache2/htdocs/upload:rw
       - ${UNIXCLOUD_DOWNLOAD_DIR:-${REPO_ROOT:-..}/httpd/download}:/usr/local/apache2/htdocs/download:ro
       - ${REPO_ROOT:-..}/httpd/users.passwd:/usr/local/apache2/users.passwd:ro
+      - ${REPO_ROOT:-..}/httpd/cgi-bin:/usr/local/apache2/cgi-bin
     networks:
       default:
         aliases:
