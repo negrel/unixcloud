@@ -3,7 +3,7 @@ repository_root := $(or $(repository_root), $(CURDIR))
 include $(repository_root)/variables.mk
 
 .PHONY: start
-start: setup/filestructure
+start: setup
 	$(DOCKER_COMPOSE) $(UNIXCLOUD_COMPONENTS_DOCKER_COMPOSE_FILES_FLAGS) up --wait
 
 restart/%:
@@ -19,6 +19,13 @@ down: clean
 .PHONY: clean
 clean:
 	$(DOCKER_COMPOSE) $(UNIXCLOUD_COMPONENTS_DOCKER_COMPOSE_FILES_FLAGS) down --volumes --remove-orphans
+
+.PHONY: setup
+setup: setup/filestructure setup/envfile
+
+.PHONY: setup/envfile
+setup/envfile:
+	printenv | grep -E '^UNIXCLOUD_' > .env
 
 .PHONY: setup/filestructure
 setup/filestructure: $(UNIXCLOUD_ROOT_DIR) $(UNIXCLOUD_UPLOAD_DIR) $(UNIXCLOUD_DOWNLOAD_DIR)

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+printf "Content-Type: text/plain\n\n"
+
+cat /.env

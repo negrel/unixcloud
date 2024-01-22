@@ -14,6 +14,7 @@ services:
       - ${UNIXCLOUD_DOWNLOAD_DIR:-${REPO_ROOT:-..}/httpd/download}:/usr/local/apache2/htdocs/download:ro
       - ${REPO_ROOT:-..}/httpd/users.passwd:/usr/local/apache2/users.passwd:ro
       - ${REPO_ROOT:-..}/httpd/cgi-bin:/usr/local/apache2/cgi-bin
+      - ${REPO_ROOT:-..}/.env:/.env
     networks:
       default:
         aliases:

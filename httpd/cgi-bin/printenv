@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+printf "Content-Type: text/plain\n\n"
+
+while IFS='=' read -r -d '' k v; do
+  printf "'%s'='%s'\n" "$k" "$v"
+done < <(env -0)
