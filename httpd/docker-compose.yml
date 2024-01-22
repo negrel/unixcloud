@@ -2,18 +2,21 @@ version: "3"
 services:
   httpd:
     image: docker.io/library/httpd:2.4.58
+    restart: unless-stopped
     command: bash -c "chown www-data:www-data /usr/local/apache2/htdocs/{,upload} && exec httpd-foreground"
     hostname: "httpd.localhost"
     user: "root"
-    ports:
-      - 80:80
+    # ports:
+    #   - 80:80
     volumes:
-      - ./httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
-      - ./httpd-dav.conf:/usr/local/apache2/conf/extra/httpd-dav.conf:ro
-      - ${UPLOAD_DIR:-./upload}:/usr/local/apache2/htdocs/upload:rw
-      - ${DOWNLOAD_DIR:-./download}:/usr/local/apache2/htdocs/download:ro
-      - $PWD/users.passwd:/usr/local/apache2/users.passwd:ro
+      - ${REPO_ROOT:-..}/httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+      - ${REPO_ROOT:-..}/httpd/httpd-dav.conf:/usr/local/apache2/conf/extra/httpd-dav.conf:ro
+      - ${UNIXCLOUD_UPLOAD_DIR:-${REPO_ROOT:-..}/httpd/upload}:/usr/local/apache2/htdocs/upload:rw
+      - ${UNIXCLOUD_DOWNLOAD_DIR:-${REPO_ROOT:-..}/httpd/download}:/usr/local/apache2/htdocs/download:ro
+      - ${REPO_ROOT:-..}/httpd/users.passwd:/usr/local/apache2/users.passwd:ro
     networks:
       default:
         aliases:
           - "httpd.localhost"
+    labels:
+      - traefik.http.routers.httpd-unixcloud.rule=Host(`webdav.${UNIXCLOUD_DOMAIN:-localhost}`)||Host(`httpd.${UNIXCLOUD_DOMAIN:-localhost}`)
