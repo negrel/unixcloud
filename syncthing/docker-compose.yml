@@ -4,8 +4,8 @@ services:
     restart: unless-stopped
     image: "docker.io/syncthing/syncthing:1.27.2"
     environment:
-      PUID: 1000
-      PGID: 1000
+      PUID: "16001"
+      PGID: "16001"
     ports:
       - 8384:8384 # Web UI
       - 22000:22000/tcp # TCP file transfers
@@ -13,7 +13,7 @@ services:
       - 21027:21027/udp # Receive local discovery broadcasts
     volumes:
       - syncthing_data:/var/syncthing
-      - ${UNIXCLOUD_UPLOAD_DIR:-./upload}:/var/syncthing/unixcloud:rw
+      - ${UNIXCLOUD_UPLOAD_DIR:-./upload}/syncthing:/var/syncthing:rw
     networks:
       default:
         aliases:
