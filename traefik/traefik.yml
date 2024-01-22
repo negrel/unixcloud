@@ -1,0 +1,18 @@
+log:
+  level: debug
+
+providers:
+  docker: {}
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: alexandre+letsencrypt@negrel.dev
+      storage: acme.json
+      tlsChallenge: {}

@@ -1,0 +1,16 @@
+version: '3'
+services:
+  # Reverse proxy (serve website and access to webdav, img-proxy, etc)
+  traefik:
+    image: docker.io/library/traefik:v2.10.7
+    volumes:
+      - ${REPO_ROOT:-..}/traefik/:/etc/traefik:ro
+      - ${REPO_ROOT:-..}/traefik/acme.json:/acme.json:rw
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      default:
+        aliases:
+          - "traefik.localhost"
