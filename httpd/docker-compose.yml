@@ -5,8 +5,8 @@ services:
     restart: unless-stopped
     hostname: "httpd.localhost"
     command: bash -c "chown www-data:www-data /usr/local/apache2/htdocs/{,upload} && exec httpd-foreground"
-    ports:
-      - 80:80
+    # ports:
+    #   - 80:80
     volumes:
       - ${REPO_ROOT:-..}/httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
       - ${REPO_ROOT:-..}/httpd/httpd-dav.conf:/usr/local/apache2/conf/extra/httpd-dav.conf:ro
