@@ -31,10 +31,20 @@ setup/envfile:
 setup/filestructure: $(UNIXCLOUD_ROOT_DIR) $(UNIXCLOUD_UPLOAD_DIR) $(UNIXCLOUD_DOWNLOAD_DIR)
 
 $(UNIXCLOUD_ROOT_DIR):
-	mkdir -p $@
+	mkdir -p "$@"
 
 $(UNIXCLOUD_UPLOAD_DIR):
-	mkdir -p $@
+	mkdir -p "$@"
 
 $(UNIXCLOUD_DOWNLOAD_DIR):
-	mkdir -p $@
+	mkdir -p "$@"
+
+exec/%: setup
+	$*
+
+.PHONY: docker/build/mediaproc
+docker/build/mediaproc:
+	nix build .#mediaproc-docker
+	$(DOCKER) load < result
+	if [ "$${REMOVE_RESULT:=1}" = "1" ]; then rm -f result; fi
+

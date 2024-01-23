@@ -1,0 +1,6 @@
+include ./libproc.mk
+
+userproc/%:
+	mkdir -p "$(shell dirname "$(UNIXCLOUD_DOWNLOAD_DIR)/$(PROC_FILEPATH_REL_UNIXCLOUD_UPLOAD_DIR)")"
+	cp "$*" "$(UNIXCLOUD_DOWNLOAD_DIR)/$(PROC_FILEPATH_REL_UNIXCLOUD_UPLOAD_DIR)" \
+		|| echo "copy failed: $* -> $(UNIXCLOUD_DOWNLOAD_DIR)/$(PROC_FILEPATH_REL_UNIXCLOUD_UPLOAD_DIR)"

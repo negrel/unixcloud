@@ -26,6 +26,7 @@
                 ];
               };
             };
+            packages = pkgs.callPackage ./mediaproc/packages.nix { inherit system pkgs self; } // { };
           });
     in
     outputsWithSystem // outputsWithoutSystem;

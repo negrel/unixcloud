@@ -18,7 +18,7 @@ export UNIXCLOUD_DOMAIN ?= unixcloud.localhost
 export UNIXCLOUD_ROOT_DIR ?= $(repository_root)/unixcloud
 
 # Components to deploy.
-export UNIXCLOUD_COMPONENTS ?= traefik httpd syncthing cron
+export UNIXCLOUD_COMPONENTS ?= traefik httpd syncthing cron mediaproc
 export UNIXCLOUD_COMPONENTS_DOCKER_COMPOSE_FILES_FLAGS := $(UNIXCLOUD_COMPONENTS:%=-f %/docker-compose.yml)
 
 # Root upload directory.
