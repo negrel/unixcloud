@@ -1,0 +1,6 @@
+version: "3"
+services:
+  cron:
+    build: ${REPO_ROOT:-..}/cron
+    volumes:
+      - ${REPO_ROOT:-..}/cron/scripts:/scripts:ro
