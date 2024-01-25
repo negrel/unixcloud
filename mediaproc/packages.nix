@@ -3,7 +3,14 @@
 rec {
   mediaproc = pkgs.writeShellApplication {
     name = "mediaproc";
-    runtimeInputs = with pkgs; [ bash gnumake coreutils findutils inotify-tools ];
+    runtimeInputs = with pkgs; [
+      bash
+      gnumake
+      coreutils
+      findutils
+      inotify-tools
+      file
+    ];
     text = ''
       make -C ${./.} -j
     '';

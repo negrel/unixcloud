@@ -10,7 +10,7 @@ setup:
 export PROC_FILEPATH ?= /dev/null
 
 proc/%: PROC_FILEPATH=$*
-proc/%: userproc/%
+proc/%:
 	# Forward call to user processing.
 	$(MAKE) "userproc/$*"
 

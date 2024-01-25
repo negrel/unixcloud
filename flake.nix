@@ -23,6 +23,9 @@
                   apacheHttpd
 
                   gnumake
+
+                  # Webapp
+                  nodejs
                 ];
               };
             };
