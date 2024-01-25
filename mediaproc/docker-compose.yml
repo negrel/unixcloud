@@ -1,0 +1,14 @@
+version: "3"
+services:
+  mediaproc:
+    image: "docker.io/negrel/unixcloud-mediaproc:latest"
+    restart: unless-stopped
+    working_dir: ${UNIXCLOUD_ROOT_DIR:-/app/unixcloud}
+    env_file: ${REPO_ROOT:-..}/.env
+    volumes:
+      - ${UNIXCLOUD_ROOT_DIR:-${REPO_ROOT:-..}/mediaproc/unixcloud}:${UNIXCLOUD_ROOT_DIR:-/app/unixcloud}:ro
+      - ${UNIXCLOUD_DOWNLOAD_DIR:-${REPO_ROOT:-..}/mediaproc/unixcloud/download}:${UNIXCLOUD_DOWNLOAD_DIR:-/app/unixcloud/download}:rw
+    networks:
+      default:
+        aliases:
+          - "mediaproc.localhost"
