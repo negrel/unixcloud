@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+DIR="$(realpath $(dirname "$0"))"
+
+set -euo pipefail
+
+src_file="$1"
+
+date="$("$DIR/extract_exif_date" "$src_file" 2> /dev/null || "$DIR/extract_filename_date" "$src_file" 2> /dev/null || true)"
+if [ -z "$date" ]; then
+  echo "no date found in filename and exif data for $1" >&2
+  exit 1
+fi
+
+echo "$date"
+

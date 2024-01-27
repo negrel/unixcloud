@@ -19,13 +19,23 @@
             devShells = {
               default = pkgs.mkShell {
                 buildInputs = with pkgs; [
-                  # Provides htpasswd.
-                  apacheHttpd
-
                   gnumake
 
-                  # Webapp
+                  # httpd/
+                  apacheHttpd
+
+                  # web/
                   nodejs
+
+                  # mediaproc/
+                  bash
+                  gnumake
+                  coreutils
+                  findutils
+                  inotify-tools
+                  file
+                  exiftool
+                  bats
                 ];
               };
             };

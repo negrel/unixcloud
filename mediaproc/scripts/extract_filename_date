@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+: ${MIN_YEAR:=2000}
+: ${MAX_YEAR:=$(date +%Y)}
+
+possible_years=($(seq $MIN_YEAR $MAX_YEAR))
+
+# Convert possible years list to a regex (2000 2001 ... 2024) -> '(2000|2001|...|2024)'
+year_regex="($(tr -s ' ' '|' <<< "${possible_years[@]}"))"
+month_regex="(0[1-9]|1[0-2])"
+day_regex="(0[1-9]|[1-2][0-9]|3[0-1])"
+
+# 20YY-MM-DD dates
+date=$(grep -Eo "${year_regex}[-_:]${month_regex}[-_:]${day_regex}" <<< "$@" | tr '[\-_:]' ' ')
+
+if [ -n "$date" ]; then
+  echo "$date"
+  exit 0
+fi
+
+# 20YYMMDD
+date=$(grep -Eo "${year_regex}${month_regex}${day_regex}" <<< "$@")
+
+if [ -z "$date" ]; then
+  echo "no date found in filename $@" >&2
+  exit 1
+fi
+
+echo "${date:0:4}" "${date:4:2}" "${date:6:2}"

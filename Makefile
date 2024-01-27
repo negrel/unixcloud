@@ -48,3 +48,8 @@ docker/build/mediaproc:
 	$(DOCKER) load < result
 	if [ "$${REMOVE_RESULT:=1}" = "1" ]; then rm -f result; fi
 
+.PHONY: tests
+tests: test
+
+test:
+	$(MAKE) -C tests
