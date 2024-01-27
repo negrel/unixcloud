@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
+: ${DEBUG:=0}
+test "$DEBUG" != "0" && set -x
+
 date="$(exiftool -T -DateTimeOriginal "$@" | cut -d ' ' -f 1 | tr ':' ' ')"
 
 if [ "$date" = "-" ]; then
