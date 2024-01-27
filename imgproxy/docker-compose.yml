@@ -1,0 +1,15 @@
+version: '3'
+services:
+  imgproxy:
+    image: "docker.io/darthsim/imgproxy:v3.21.0"
+    environment:
+      IMGPROXY_LOCAL_FILESYSTEM_ROOT: /
+      IMGPROXY_MAX_SRC_RESOLUTION: 64
+    volumes:
+      - ${UNIXCLOUD_DOWNLOAD_DIR:-${REPO_ROOT:-..}/imgproxy/download}:/download:ro
+    networks:
+      default:
+        aliases:
+          - "imgproxy.localhost"
+    labels:
+      - traefik.http.routers.imgproxy-unixcloud.rule=Host(`imgproxy.${UNIXCLOUD_DOMAIN:-localhost}`)
