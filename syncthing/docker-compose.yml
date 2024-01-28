@@ -3,6 +3,8 @@ services:
   syncthing:
     restart: unless-stopped
     image: "docker.io/syncthing/syncthing:1.27.2"
+    healthcheck:
+      test: "true"
     environment:
       PUID: "16001"
       PGID: "16001"
