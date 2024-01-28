@@ -14,6 +14,16 @@
               inherit system;
             };
             lib = pkgs.lib;
+            mediaprocInputs = with pkgs; [
+              bash
+              gnumake
+              coreutils
+              findutils
+              inotify-tools
+              file
+              exiftool
+              vips
+            ];
           in
           {
             devShells = {
@@ -27,19 +37,16 @@
                   # web/
                   nodejs
 
-                  # mediaproc/
-                  bash
-                  gnumake
-                  coreutils
-                  findutils
-                  inotify-tools
-                  file
-                  exiftool
+                  # tests/
                   bats
-                ];
+                ] ++ mediaprocInputs;
               };
             };
-            packages = pkgs.callPackage ./mediaproc/packages.nix { inherit system pkgs self; } // { };
+            packages = pkgs.callPackage ./mediaproc/packages.nix
+              {
+                inherit system pkgs self lib;
+                runtimeInputs = mediaprocInputs;
+              } // { };
           });
     in
     outputsWithSystem // outputsWithoutSystem;

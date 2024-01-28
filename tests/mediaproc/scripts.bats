@@ -1,5 +1,7 @@
 #!/usr/bin/env bats
 
+export PATH="$PATH:../../mediaproc/scripts/"
+
 @test "extract_exif_date on file WITH DateTimeOriginal field" {
   result="$(../../mediaproc/scripts/extract_exif_date ./images/with_exif_date_time_original.jpg)"
   [ "$result" = "1970 01 01" ]
@@ -27,6 +29,7 @@
 
 @test "extract_date on file with different DateTimeOriginal field and filename" {
   result="$(../../mediaproc/scripts/extract_date ./images/2000-01-10_with_exif_date_time_original.jpg)"
+	echo "$result"
   [ "$result" = "1970 01 01" ]
 }
 

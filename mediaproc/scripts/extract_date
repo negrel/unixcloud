@@ -2,15 +2,12 @@
 
 set -euo pipefail
 
-: ${DEBUG:=0}
+: "${DEBUG:=0}"
 test "$DEBUG" != "0" && set -x
-
-DIR="$(realpath $(dirname "$0"))"
-
 
 src_file="$1"
 
-date="$("$DIR/extract_exif_date" "$src_file" 2> /dev/null || "$DIR/extract_filename_date" "$src_file" 2> /dev/null || true)"
+date="$(extract_exif_date "$src_file" 2> /dev/null || extract_filename_date "$src_file" 2> /dev/null || true)"
 if [ -z "$date" ]; then
   echo "no date found in filename and exif data for $1" >&2
   exit 1

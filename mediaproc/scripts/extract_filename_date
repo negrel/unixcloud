@@ -2,13 +2,13 @@
 
 set -euo pipefail
 
-: ${DEBUG:=0}
+: "${DEBUG:=0}"
 test "$DEBUG" != "0" && set -x
 
-: ${MIN_YEAR:=2000}
-: ${MAX_YEAR:=$(date +%Y)}
+: "${MIN_YEAR:=2000}"
+: "${MAX_YEAR:=$(date +%Y)}"
 
-possible_years=($(seq $MIN_YEAR $MAX_YEAR))
+IFS=" " read -r -a possible_years < <(seq "$MIN_YEAR" "$MAX_YEAR")
 
 # Convert possible years list to a regex (2000 2001 ... 2024) -> '(2000|2001|...|2024)'
 year_regex="($(tr -s ' ' '|' <<< "${possible_years[@]}"))"
@@ -16,7 +16,7 @@ month_regex="(0[1-9]|1[0-2])"
 day_regex="(0[1-9]|[1-2][0-9]|3[0-1])"
 
 # 20YY-MM-DD dates
-date=$(grep -Eo "${year_regex}[-_:]${month_regex}[-_:]${day_regex}" <<< "$@" | tr '[\-_:]' ' ' || true)
+date=$(grep -Eo "${year_regex}[-_:]${month_regex}[-_:]${day_regex}" <<< "$1" | tr '\-_:' ' ' || true)
 
 if [ -n "$date" ]; then
   echo "$date"
@@ -24,10 +24,10 @@ if [ -n "$date" ]; then
 fi
 
 # 20YYMMDD
-date=$(grep -Eo "${year_regex}${month_regex}${day_regex}" <<< "$@" || true)
+date=$(grep -Eo "${year_regex}${month_regex}${day_regex}" <<< "$(dirname "$1")" || true)
 
 if [ -z "$date" ]; then
-  echo "no date found in filename $@" >&2
+  echo "no date found in filename $1" >&2
   exit 1
 fi
 

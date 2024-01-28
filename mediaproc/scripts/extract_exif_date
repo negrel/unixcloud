@@ -2,13 +2,13 @@
 
 set -euo pipefail
 
-: ${DEBUG:=0}
+: "${DEBUG:=0}"
 test "$DEBUG" != "0" && set -x
 
-date="$(exiftool -T -DateTimeOriginal "$@" | cut -d ' ' -f 1 | tr ':' ' ')"
+date="$(exiftool -T -DateTimeOriginal "$1" | cut -d ' ' -f 1 | tr ':' ' ')"
 
 if [ "$date" = "-" ]; then
-  echo "no date found in exif data of $@" >&2
+  echo "no date found in exif data of $1" >&2
   exit 1
 fi
 
